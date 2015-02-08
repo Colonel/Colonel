@@ -1,0 +1,21 @@
+# EditorConfig is awesome: http://EditorConfig.org
+
+# This file is only to be changed when agreed within the team
+# and any changes that affect legacy code will be changed to
+# match the changes.
+#
+# @author Nigel Greenway <nigel.greenway@prestoclassical.co.uk>
+
+# top-most EditorConfig file
+root = true
+
+# Unix-style newlines with a newline ending every file
+[*]
+charset     = utf-8
+end_of_line = lf
+
+indent_style = space
+indent_size  = 4
+
+trim_trailing_whitespace = true
+insert_final_newline     = false
