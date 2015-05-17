@@ -1,0 +1,40 @@
+{
+    "name": "nigelgreenway/colonel",
+    "description": "A component based framework on StackPHP, Domain Driven Design, CQRS and Event Patterns.",
+    "license": "GPLv3",
+    "type": "library",
+    "version": "0.0.1-alpha1",
+    "autoload": {
+        "psr-4": {
+            "Application\\": "Application/",
+            "Demo\\":        "_src/Demo/",
+            "Colonel\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "ColonelTests\\": "tests/"
+        }
+    },
+    "authors": [
+        {
+            "name":     "Nigel Greenway",
+            "email":    "nigel_greenway@me.com",
+            "homepage": "http://futurepixels.co.uk",
+            "role":     "Developer"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=5.4.0",
+        "league/container": "^1.3.2",
+        "league/route": "^1.1.0",
+        "twig/twig": "^1.18.1"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^4.6.6"
+    },
+    "config": {
+        "bin-dir": "bin"
+    }
+}
