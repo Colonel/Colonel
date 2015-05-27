@@ -6,13 +6,12 @@
     "version": "v1.0.0",
     "autoload": {
         "psr-4": {
-            "Application\\": "Application/",
             "Colonel\\":     "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Demo\\":        "_src/Demo/",
+            "Demo\\":          "Demo/",
             "Colonel\\Test\\": "tests/"
         }
     },
