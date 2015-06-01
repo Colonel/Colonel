@@ -3,7 +3,7 @@
 namespace Demo\Application\Adapter;
 
 use Colonel\Configuration;
-use Colonel\Debugger;
+use Colonel\Profiler;
 use Twig_Loader_Filesystem;
 use Twig_Environment;
 
@@ -37,9 +37,9 @@ class TwigAdapter
 
     public function render($view, array $parameters = [])
     {
-        Debugger::debugStart('twig');
+        Profiler::start('twig');
         $view = $this->twig->render($view, $parameters);
-        Debugger::debugEnd('twig');
+        Profiler::end('twig');
         return $view;
     }
 

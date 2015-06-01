@@ -40,7 +40,7 @@ final class HttpKernel implements HttpKernelInterface, TerminableInterface
     ) {
         $this->configuration = new Configuration($configuration);
         $this->configuration['debug'] === true ?
-            Debugger::debugStart('HttpKernel') :
+            Profiler::start('HttpKernel') :
             ''
         ;
 
@@ -74,8 +74,8 @@ final class HttpKernel implements HttpKernelInterface, TerminableInterface
             $this->configuration['debug'] === true ?
                 $response->setContent(
                     $response->getContent() .
-                    Debugger::debugEnd('HttpKernel') .
-                    Debugger::getRuntime()
+                    Profiler::end('HttpKernel') .
+                    Profiler::getRuntime()
                 ) :
                 ''
             ;

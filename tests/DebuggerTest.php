@@ -8,7 +8,7 @@
 
 namespace Colonel\Test\Configuration;
 
-use Colonel\Debugger;
+use Colonel\Profiler;
 
 class DebuggerTest extends \PHPUnit_Framework_TestCase
 {
@@ -20,9 +20,9 @@ class DebuggerTest extends \PHPUnit_Framework_TestCase
     {
         $start = microtime(true);
         sleep(1);
-        Debugger::composerLoad($start);
+        Profiler::composerLoad($start);
 
-        $this->assertTrue(Debugger::getTimeTaken('composer') >= 1.000);
+        $this->assertTrue(Profiler::getBreakdown('composer') >= 1.000);
     }
 
     /**
@@ -32,10 +32,10 @@ class DebuggerTest extends \PHPUnit_Framework_TestCase
      */
     public function test_debugging_of_section()
     {
-        Debugger::debugStart('test');
+        Profiler::start('test');
         sleep(5);
-        Debugger::debugEnd('test');
+        Profiler::end('test');
 
-        $this->assertTrue(Debugger::getTimeTaken('test') >= 5.000);
+        $this->assertTrue(Profiler::getBreakdown('test') >= 5.000);
     }
 }
