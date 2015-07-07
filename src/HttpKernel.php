@@ -70,6 +70,7 @@ final class HttpKernel implements HttpKernelInterface, TerminableInterface
         $dispatcher = $this->router->getDispatcher();
 
         try {
+            $this->container->singleton(Request::class, $request);
             $response = $dispatcher->dispatch($request->getMethod(), $request->getRequestUri());
 
             $this->configuration['debug'] === true ?
