@@ -46,7 +46,6 @@ final class HttpKernel implements HttpKernelInterface, TerminableInterface
 
         $this->container     = new Container($this->configuration['services']);
         $this->container->singleton(Configuration::class, $this->configuration);
-        $this->container->singleton(Container::class, $this->configuration);
 
         $this->router = new RouteCollection($this->container);
         $this->router->setStrategy(new UriRequestStrategy);
