@@ -4,7 +4,7 @@ $default = [
     'Demo\\Application\\Adapter\\TwigAdapter' => [
         'class' => 'Demo\\Application\\Adapter\\TwigAdapter',
         'arguments' => [
-            'config',
+            'Colonel\\Configuration',
         ],
     ],
 ];
