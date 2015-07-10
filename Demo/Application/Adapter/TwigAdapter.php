@@ -16,6 +16,7 @@ class TwigAdapter
     public function __construct(
         Configuration $configuration
     ) {
+        Profiler::start('templating');
         $this->configuration = $configuration;
         $this->initialise();
     }
@@ -33,13 +34,19 @@ class TwigAdapter
             $this->loader,
             $this->configuration['twig']['options']
         );
+
+        $this->twig->addFunction(new \Twig_SimpleFunction('dump', function() {
+            echo '<pre>';
+            var_dump(func_get_args());
+            echo '</pre>';
+        }));
+
+        $this->twig->addGlobal('profile', Profiler::getRuntime());
     }
 
     public function render($view, array $parameters = [])
     {
-        Profiler::start('twig');
         $view = $this->twig->render($view, $parameters);
-        Profiler::end('twig');
         return $view;
     }
 

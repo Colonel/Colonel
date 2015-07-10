@@ -40,13 +40,12 @@ final class HttpKernel implements HttpKernelInterface, TerminableInterface
     ) {
         $this->configuration = new Configuration($configuration);
         $this->configuration['debug'] === true ?
-            Profiler::start('HttpKernel') :
+            Profiler::start('http.kernel') :
             ''
         ;
 
         $this->container     = new Container($this->configuration['services']);
         $this->container->singleton(Configuration::class, $this->configuration);
-        $this->container->singleton(Container::class, $this->configuration);
 
         $this->router = new RouteCollection($this->container);
         $this->router->setStrategy(new UriRequestStrategy);
@@ -73,14 +72,6 @@ final class HttpKernel implements HttpKernelInterface, TerminableInterface
             $this->container->singleton(Request::class, $request);
             $response = $dispatcher->dispatch($request->getMethod(), $request->getRequestUri());
 
-            $this->configuration['debug'] === true ?
-                $response->setContent(
-                    $response->getContent() .
-                    Profiler::end('HttpKernel') .
-                    Profiler::getRuntime()
-                ) :
-                ''
-            ;
 
         } catch (NotFoundException $exception) {
             $response = Response::create(
@@ -94,6 +85,7 @@ final class HttpKernel implements HttpKernelInterface, TerminableInterface
             );
         }
 
+        Profiler::finish('http.kernel');
         return $response;
     }
 

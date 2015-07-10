@@ -20,17 +20,6 @@ class Profiler
     public static $container = [];
 
     /**
-     * Add the composer timings to the debugging storage
-     *
-     * @param float $start
-     */
-    public static function composerLoad($start)
-    {
-        self::$container['composer']['start'] = $start;
-        self::$container['composer']['end']   = sprintf('%0.3f', (microtime(true) - $start));
-    }
-
-    /**
      * Set the start of the timed process
      *
      * @param string $key The named section to debug
@@ -41,23 +30,13 @@ class Profiler
     }
 
     /**
-     * Set the end of the timed process
+     * Set the finish of the timed process
      *
      * @param string $key The named section to debug
      */
-    public static function end($key)
+    public static function finish($key)
     {
-        self::$container[$key]['end'] = sprintf('%0.3f', (microtime(true) - self::$container[$key]['start']));
-    }
-
-    /**
-     * @param string $key
-     *
-     * @return string
-     */
-    public static function getBreakdown($key)
-    {
-        return (float) self::$container[$key]['end'];
+        self::$container[$key]['end'] = microtime(true) - self::$container[$key]['start'];
     }
 
     /**
@@ -67,9 +46,16 @@ class Profiler
      */
     public static function getRuntime()
     {
-        return
-            self::$container['HttpKernel']['end'] . ' [secs]' .
-            ' | ' .
-            sprintf('Total Memory: %.2f [mb]', (memory_get_usage(true) / 1024 / 1024));
+        foreach(self::$container as $key => $data) {
+            if (isset($data['end']) === false) {
+                self::$container[$key]['end'] = microtime(true) - self::$container[$key]['start'];
+            }
+        }
+
+        return [
+            'runtime' => self::$container['http.kernel']['end'],
+            'memory_usage'  => (memory_get_usage(true) / 1024 / 1024),
+            'breakdown' => self::$container,
+        ];
     }
 }
