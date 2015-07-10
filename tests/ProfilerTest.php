@@ -12,18 +12,6 @@ use Colonel\Profiler;
 
 class DebuggerTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @covers Colonel\Debugger::composerLoad
-     * @covers Colonel\Debugger::getTimeTaken
-     */
-    public function test_composer_loadtime()
-    {
-        $start = microtime(true);
-        sleep(1);
-        Profiler::composerLoad($start);
-
-        $this->assertTrue(Profiler::getBreakdown('composer') >= 1.000);
-    }
 
     /**
      * @covers Colonel\Debugger::debugStart
@@ -32,10 +20,15 @@ class DebuggerTest extends \PHPUnit_Framework_TestCase
      */
     public function test_debugging_of_section()
     {
+        Profiler::start('http.kernel');
         Profiler::start('test');
         sleep(5);
-        Profiler::end('test');
+        Profiler::finish('test');
+        Profiler::finish('http.kernel');
 
-        $this->assertTrue(Profiler::getBreakdown('test') >= 5.000);
+        $this->assertArrayHasKey('runtime', Profiler::getRuntime());
+        $this->assertArrayHasKey('memory_usage', Profiler::getRuntime());
+        $this->assertArrayHasKey('http.kernel', Profiler::getRuntime()['breakdown']);
+        $this->assertArrayHasKey('test', Profiler::getRuntime()['breakdown']);
     }
 }
