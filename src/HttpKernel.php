@@ -72,15 +72,6 @@ final class HttpKernel implements HttpKernelInterface, TerminableInterface
             $this->container->singleton(Request::class, $request);
             $response = $dispatcher->dispatch($request->getMethod(), $request->getRequestUri());
 
-            $this->configuration['debug'] === true ?
-                $response->setContent(
-                    $response->getContent() .
-                    Profiler::end('HttpKernel') .
-                    Profiler::getRuntime()
-                ) :
-                ''
-            ;
-
         } catch (NotFoundException $exception) {
             $response = Response::create(
                 sprintf(
