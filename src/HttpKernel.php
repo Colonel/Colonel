@@ -62,10 +62,11 @@ final class HttpKernel implements HttpKernelInterface, TerminableInterface
     public function handle(Request $request, $type = self::MASTER_REQUEST, $catch = true)
     {
         $dispatcher = $this->router->getDispatcher();
+        $requestUri = parse_url($request->getRequestUri(), PHP_URL_PATH);
 
         try {
             $this->container->singleton(Request::class, $request);
-            $response = $dispatcher->dispatch($request->getMethod(), $request->getRequestUri());
+            $response = $dispatcher->dispatch($request->getMethod(), $requestUri);
 
 
         } catch (NotFoundException $exception) {
@@ -73,7 +74,7 @@ final class HttpKernel implements HttpKernelInterface, TerminableInterface
                 sprintf(
                     '<h1>Oops, there is an error: <strong>%s</strong></h1><p>Does the requested route `<strong>%s</strong>` exist?</p><pre>%s</pre>',
                     $exception->getMessage(),
-                    $request->getRequestUri(),
+                    $requestUri,
                     $exception->getTraceAsString()
                 ),
                 Response::HTTP_NOT_FOUND
