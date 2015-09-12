@@ -3,7 +3,6 @@
 namespace Demo\Application\Adapter;
 
 use Colonel\Configuration;
-use Colonel\Profiler;
 use Twig_Loader_Filesystem;
 use Twig_Environment;
 
