@@ -39,10 +39,6 @@ final class HttpKernel implements HttpKernelInterface, TerminableInterface
         array $configuration = []
     ) {
         $this->configuration = new Configuration($configuration);
-        $this->configuration['debug'] === true ?
-            Profiler::start('http.kernel') :
-            ''
-        ;
 
         $this->container     = new Container($this->configuration['services']);
         $this->container->singleton(Configuration::class, $this->configuration);
@@ -86,7 +82,6 @@ final class HttpKernel implements HttpKernelInterface, TerminableInterface
             );
         }
 
-        Profiler::finish('http.kernel');
         return $response;
     }
 
