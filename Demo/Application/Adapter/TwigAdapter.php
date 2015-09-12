@@ -3,7 +3,6 @@
 namespace Demo\Application\Adapter;
 
 use Colonel\Configuration;
-use Colonel\Profiler;
 use Twig_Loader_Filesystem;
 use Twig_Environment;
 
@@ -16,7 +15,6 @@ class TwigAdapter
     public function __construct(
         Configuration $configuration
     ) {
-        Profiler::start('templating');
         $this->configuration = $configuration;
         $this->initialise();
     }
@@ -40,8 +38,6 @@ class TwigAdapter
             var_dump(func_get_args());
             echo '</pre>';
         }));
-
-        $this->twig->addGlobal('profile', Profiler::getRuntime());
     }
 
     public function render($view, array $parameters = [])
