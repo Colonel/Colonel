@@ -10,20 +10,22 @@ namespace Colonel\Test\Configuration;
 
 use Colonel\HttpKernel;
 use Colonel\Test\Fixtures\TestServiceProvider;
+use Demo\Application\DemoServiceProvider;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class HttpKernelTest extends \PHPUnit_Framework_TestCase
+class ServiceProviderTest extends \PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
         $_SERVER['REQUEST_URI'] = '/';
     }
+
     /**
      * @covers \Colonel\HttpKernel::handle
      * @covers \Colonel\HttpKernel::run
      */
-    public function test_handle_is_successful()
+    public function test_handle_is_successful_with_a_service_provider()
     {
         $app = new HttpKernel([
             'debug' => false,
@@ -43,6 +45,9 @@ class HttpKernelTest extends \PHPUnit_Framework_TestCase
                     ],
                 ],
             ],
+            'service_providers' => [
+                TestServiceProvider::class => new TestServiceProvider()
+            ],
         ]);
 
         $request = Request::createFromGlobals();
@@ -54,5 +59,6 @@ class HttpKernelTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->assertEquals('<h1>It works!</h1>', $response->getContent());
+        $this->assertTrue($app->container->isSingleton(\stdClass::class));
     }
 }
