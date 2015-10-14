@@ -15,13 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ServiceProviderTest extends \PHPUnit_Framework_TestCase
 {
-    public function setUp()
-    {
-        $_SERVER['REQUEST_URI'] = '/';
-    }
-
     /**
-     * @covers \Colonel\HttpKernel::handle
      * @covers \Colonel\HttpKernel::run
      */
     public function test_handle_is_successful_with_a_service_provider()
@@ -38,7 +32,7 @@ class ServiceProviderTest extends \PHPUnit_Framework_TestCase
                     'test_route' => [
                         'pattern'    => '/',
                         'controller' => function() {
-                            return Response::create('<h1>It works!</h1>', 200);
+                            // Some functionality...
                         },
                         'method'     => 'GET',
                     ],
@@ -49,15 +43,46 @@ class ServiceProviderTest extends \PHPUnit_Framework_TestCase
             ],
         ]);
 
-        $request = Request::createFromGlobals();
+        $app->run();
+
+        $this->assertTrue($app->container->isSingleton(\stdClass::class, new \stdClass()));
+    }
+
+    /**
+     * @covers \Colonel\HttpKernel::handle
+     * @covers \Colonel\HttpKernel::run
+     */
+    public function test_handle_is_successful_without_a_service_provider()
+    {
+        $app = new HttpKernel([
+            'debug' => false,
+            'services' => [
+                'di' => [
+                    // Leave empty
+                ],
+            ],
+            'routes' => [
+                'test_group' => [
+                    'test_route' => [
+                        'pattern'    => '/',
+                        'controller' => function() {
+                            return Response::create('<h1>Hello World</h1>', 200);
+                        },
+                        'method'     => 'GET',
+                    ],
+                ],
+            ],
+            'service_providers' => [
+            ],
+        ]);
+
+        $_SERVER['REQUEST_URI'] = '/';
 
         $response = $app->handle(
-            $request,
-            1,
-            true
+            Request::createFromGlobals(),
+            HttpKernel::MASTER_REQUEST
         );
 
-        $this->assertEquals('<h1>It works!</h1>', $response->getContent());
-        $this->assertTrue($app->container->isSingleton(\stdClass::class));
+        $this->assertEquals('<h1>Hello World</h1>', $response->getContent());
     }
 }
