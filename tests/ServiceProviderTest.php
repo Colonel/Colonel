@@ -10,7 +10,6 @@ namespace Colonel\Test\Configuration;
 
 use Colonel\HttpKernel;
 use Colonel\Test\Fixtures\TestServiceProvider;
-use Demo\Application\DemoServiceProvider;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
