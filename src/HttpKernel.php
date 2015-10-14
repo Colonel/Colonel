@@ -28,7 +28,22 @@ final class HttpKernel implements HttpKernelInterface, TerminableInterface
     /**
      * @var Configuration
      */
-    private $configuration;
+    public $configuration;
+
+    /**
+     * @var Container
+     */
+    public $container;
+
+    /**
+     * @var bool
+     */
+    private $booted    = false;
+
+    /**
+     * @var bool
+     */
+    private $destroyed = false;
 
     /**
      * Class Constructor
@@ -61,6 +76,8 @@ final class HttpKernel implements HttpKernelInterface, TerminableInterface
      */
     public function handle(Request $request, $type = self::MASTER_REQUEST, $catch = true)
     {
+        $this->boot();
+
         $dispatcher = $this->router->getDispatcher();
         $requestUri = parse_url($request->getRequestUri(), PHP_URL_PATH);
 
@@ -98,10 +115,51 @@ final class HttpKernel implements HttpKernelInterface, TerminableInterface
 
         $this->terminate($request, $response);
     }
-
+    
     /**
      * {@inheritDoc}
      */
     public function terminate(Request $request, Response $response)
-    {}
+    {
+        if (
+            $this->destroyed === false
+            && $this->configuration['service_providers'] !== null
+        ) {
+            foreach($this->configuration['service_providers'] as $provider) {
+                $provider->terminate($this);
+            }
+        }
+    }
+
+    /**
+     * Get the container
+     * 
+     * @return Container
+     */
+    public function getContainer()
+    {
+        return $this->container;
+    }
+
+    /**
+     * Call the boot method on a ServiceProvider
+     * 
+     * @return void
+     */
+    private function boot()
+    {
+        if (
+            $this->booted === false
+            && $this->configuration['service_providers'] !== null
+        ) {
+            foreach ($this->configuration['service_providers'] as $provider) {
+                if ($provider instanceof ServiceProviderInterface === false) {
+                    throw new ClassDoesNotImplementServiceProviderInterfaceException(get_class($provider));
+                }
+                $provider->boot($this);
+            }
+        }
+
+        $this->booted = true;
+    }
 }
