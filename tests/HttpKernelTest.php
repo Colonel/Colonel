@@ -72,7 +72,7 @@ class HttpKernelTest extends \PHPUnit_Framework_TestCase
             'routes' => [
                 'test_group' => [
                     'test_route' => [
-                        'pattern'    => '',
+                        'pattern'    => '/',
                         'controller' => function() {
                             return Response::create('<h1>It works!</h1>', 200);
                         },
