@@ -15,6 +15,10 @@ use Symfony\Component\HttpFoundation\Response;
 
 class HttpKernelTest extends \PHPUnit_Framework_TestCase
 {
+    public function setUp()
+    {
+        $_SERVER['REQUEST_URI'] = '/';
+    }
     /**
      * @covers \Colonel\HttpKernel::handle
      * @covers \Colonel\HttpKernel::run
@@ -31,7 +35,7 @@ class HttpKernelTest extends \PHPUnit_Framework_TestCase
             'routes' => [
                 'test_group' => [
                     'test_route' => [
-                        'pattern'    => '',
+                        'pattern'    => '/',
                         'controller' => function() {
                             return Response::create('<h1>It works!</h1>', 200);
                         },
@@ -68,7 +72,7 @@ class HttpKernelTest extends \PHPUnit_Framework_TestCase
             'routes' => [
                 'test_group' => [
                     'test_route' => [
-                        'pattern'    => '',
+                        'pattern'    => '/',
                         'controller' => function() {
                             return Response::create('<h1>It works!</h1>', 200);
                         },
