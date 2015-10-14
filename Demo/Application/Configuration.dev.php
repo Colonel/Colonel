@@ -35,4 +35,7 @@ return [
     'services' => [
         'di' => require realpath(__DIR__ . '/Service.php'),
     ],
+    'service_providers' => [
+        \Demo\Application\DemoServiceProvider::class => new \Demo\Application\DemoServiceProvider(),
+    ]
 ];
