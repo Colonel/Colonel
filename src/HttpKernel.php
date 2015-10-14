@@ -76,8 +76,6 @@ final class HttpKernel implements HttpKernelInterface, TerminableInterface
      */
     public function handle(Request $request, $type = self::MASTER_REQUEST, $catch = true)
     {
-        $this->boot();
-
         $dispatcher = $this->router->getDispatcher();
         $requestUri = parse_url($request->getRequestUri(), PHP_URL_PATH);
 
@@ -106,6 +104,8 @@ final class HttpKernel implements HttpKernelInterface, TerminableInterface
      */
     public function run(Request $request = null)
     {
+        $this->boot();
+
         if ($request === null) {
             $request = Request::createFromGlobals();
         }
