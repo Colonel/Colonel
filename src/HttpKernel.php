@@ -120,7 +120,7 @@ final class HttpKernel implements HttpKernelInterface, TerminableInterface
 
         $this->terminate($request, $response);
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -138,11 +138,7 @@ final class HttpKernel implements HttpKernelInterface, TerminableInterface
 
     /**
      * Get the container
-<<<<<<< HEAD
-     * 
-=======
      *
->>>>>>> feature/move-route-strategy-into-config
      * @return Container
      */
     public function getContainer()
@@ -152,11 +148,7 @@ final class HttpKernel implements HttpKernelInterface, TerminableInterface
 
     /**
      * Call the boot method on a ServiceProvider
-<<<<<<< HEAD
-     * 
-=======
      *
->>>>>>> feature/move-route-strategy-into-config
      * @return void
      */
     private function boot()
