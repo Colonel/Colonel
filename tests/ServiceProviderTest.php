@@ -21,6 +21,7 @@ class ServiceProviderTest extends \PHPUnit_Framework_TestCase
      */
     public function test_handle_is_successful_with_a_service_provider()
     {
+        $_SERVER['REQUEST_URI'] = '/';
         $app = new HttpKernel([
             'debug' => false,
             'services' => [
@@ -45,7 +46,7 @@ class ServiceProviderTest extends \PHPUnit_Framework_TestCase
             ],
         ]);
 
-        $app->run();
+        $app->run(Request::createFromGlobals());
 
         $this->assertTrue($app->container->isSingleton(\stdClass::class, new \stdClass()));
     }
