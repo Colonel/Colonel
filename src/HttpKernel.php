@@ -57,8 +57,13 @@ final class HttpKernel implements HttpKernelInterface, TerminableInterface
         $this->container     = new Container($this->configuration['services']);
         $this->container->singleton(Configuration::class, $this->configuration);
 
-        $this->router = new RouteCollection($this->container);
-        $this->router->setStrategy(new UriRequestStrategy);
+        if (array_key_exists('route_strategy', $configuration) === false) {
+            throw new NoRouteStrategyDefinedException;
+        }
+
+        $routeStrategy = $configuration['route_strategy'];
+        $this->router  = new RouteCollection($this->container);
+        $this->router->setStrategy(new $routeStrategy);
 
         foreach($this->configuration['routes'] as $collection) {
             foreach($collection as $route) {
@@ -115,7 +120,7 @@ final class HttpKernel implements HttpKernelInterface, TerminableInterface
 
         $this->terminate($request, $response);
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -133,7 +138,7 @@ final class HttpKernel implements HttpKernelInterface, TerminableInterface
 
     /**
      * Get the container
-     * 
+     *
      * @return Container
      */
     public function getContainer()
@@ -143,7 +148,7 @@ final class HttpKernel implements HttpKernelInterface, TerminableInterface
 
     /**
      * Call the boot method on a ServiceProvider
-     * 
+     *
      * @return void
      */
     private function boot()
