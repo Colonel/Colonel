@@ -32,6 +32,7 @@ return [
     'routes' => [
         'DemoBundle' => require realpath(__DIR__ . '/../src/Routing/Routing.php'),
     ],
+    'route_strategy' => \Colonel\UriRequestStrategy::class,
     'services' => [
         'di' => require realpath(__DIR__ . '/Service.php'),
     ],
