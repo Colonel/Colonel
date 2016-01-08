@@ -10,6 +10,7 @@ namespace Colonel\Test\Configuration;
 
 use Colonel\HttpKernel;
 use Colonel\Test\Fixtures\TestServiceProvider;
+use Colonel\UriRequestStrategy;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -27,6 +28,7 @@ class ServiceProviderTest extends \PHPUnit_Framework_TestCase
                     // Leave empty
                 ],
             ],
+            'route_strategy' => UriRequestStrategy::class,
             'routes' => [
                 'test_group' => [
                     'test_route' => [
@@ -61,6 +63,7 @@ class ServiceProviderTest extends \PHPUnit_Framework_TestCase
                     // Leave empty
                 ],
             ],
+            'route_strategy' => UriRequestStrategy::class,
             'routes' => [
                 'test_group' => [
                     'test_route' => [
