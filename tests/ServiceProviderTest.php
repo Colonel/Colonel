@@ -19,7 +19,7 @@ class ServiceProviderTest extends \PHPUnit_Framework_TestCase
     /**
      * @covers \Colonel\HttpKernel::run
      */
-    public function test_handle_is_successful_with_a_service_provider()
+    public function test_handle_is_successful_with_a_service_provider_injecting_into_the_container()
     {
         $_SERVER['REQUEST_URI'] = '/';
         $app = new HttpKernel([
@@ -34,8 +34,8 @@ class ServiceProviderTest extends \PHPUnit_Framework_TestCase
                 'test_group' => [
                     'test_route' => [
                         'pattern'    => '/',
-                        'controller' => function() {
-                            // Some functionality...
+                        'controller' => function(Request $request) {
+                            //
                         },
                         'method'     => 'GET',
                     ],
@@ -48,7 +48,10 @@ class ServiceProviderTest extends \PHPUnit_Framework_TestCase
 
         $app->run(Request::createFromGlobals());
 
-        $this->assertTrue($app->container->isSingleton(\stdClass::class, new \stdClass()));
+        $this->assertEquals(
+            $app->container->offsetGet('server'),
+            $app->container->get(Request::class)->server
+        );
     }
 
     /**

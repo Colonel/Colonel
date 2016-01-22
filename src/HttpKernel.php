@@ -86,8 +86,10 @@ final class HttpKernel implements HttpKernelInterface, TerminableInterface
 
         try {
             $this->container->singleton(Request::class, $request);
-            $response = $dispatcher->dispatch($request->getMethod(), $requestUri);
 
+            $this->boot();
+
+            $response = $dispatcher->dispatch($request->getMethod(), $requestUri);
 
         } catch (NotFoundException $exception) {
             $response = Response::create(
@@ -109,8 +111,6 @@ final class HttpKernel implements HttpKernelInterface, TerminableInterface
      */
     public function run(Request $request = null)
     {
-        $this->boot();
-
         if ($request === null) {
             $request = Request::createFromGlobals();
         }
