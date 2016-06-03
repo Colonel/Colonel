@@ -1,20 +1,12 @@
 <?php
-/**
- * ...
- *
- * @author Nigel Greenway <nigel_greenway@me.com>
- * @license ...
- */
-
+/** @license See LICENSE.md */
 namespace Colonel\Test\Configuration;
 
 use Colonel\Configuration;
 
 class ConfigurationTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @covers Colonel\Configuration::__construct
-     */
+    /** @covers Colonel\Configuration::__construct */
     public function test_debug_is_not_enabled_by_default()
     {
         $configuration = new Configuration([
@@ -24,9 +16,7 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($configuration['debug']);
     }
 
-    /**
-     * @covers Colonel\Configuration::__construct
-     */
+    /** @covers Colonel\Configuration::__construct */
     public function test_debug_is_enabled_by_default()
     {
         $configuration = new Configuration([
@@ -36,9 +26,7 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($configuration['debug']);
     }
 
-    /**
-     * @covers Colonel\Configuration::__construct
-     */
+    /** @covers Colonel\Configuration::__construct */
     public function test_key_returns_an_array()
     {
         $configuration = new Configuration([
@@ -53,9 +41,7 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue(gettype($configuration['databases']) == 'array');
     }
 
-    /**
-     * @covers Colonel\Configuration::__construct
-     */
+    /** @covers Colonel\Configuration::__construct */
     public function test_key_return_correct_array_keys()
     {
         $configuration = new Configuration([

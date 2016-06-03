@@ -1,16 +1,9 @@
 <?php
-/**
- * ...
- *
- * @author Nigel Greenway <nigel_greenway@me.com>
- * @license ...
- */
-
+/** @license See LICENSE.md */
 namespace Colonel\Test\Configuration;
 
 use Colonel\HttpKernel;
 use Colonel\NoRouteStrategyDefinedException;
-use Colonel\Test\Fixtures\TestServiceProvider;
 use Colonel\UriRequestStrategy;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

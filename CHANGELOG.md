@@ -7,3 +7,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Removes
 
  - try/catch for `League\Route\Http\Exception\NotFoundException`
+
+### Changes
+
+ - General tidy up of the comments and code

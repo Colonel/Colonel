@@ -1,31 +1,16 @@
 <?php
-/**
- * Part of the Colonel Library
- *
- * @author Nigel Greenway <nigel_greenway@me.com>
- * @license GNUv3
- */
-
+/** @license See LICENSE.md */
 namespace Colonel;
 
 use ArrayAccess;
 
-/**
- * Configuration store
- *
- * @package Colonel
- * @author  Nigel Greenway <nigel_greenway@me.com>
- */
+/** @author  Nigel Greenway <nigel_greenway@me.com> */
 class Configuration implements ArrayAccess
 {
     /** @var array */
     private $container;
 
-    /**
-     * Class Constructor
-     *
-     * @param array $configuration
-     */
+    /** @param array $configuration */
     public function __construct(array $configuration = [])
     {
         $this->container = $configuration;
@@ -38,7 +23,7 @@ class Configuration implements ArrayAccess
      */
     public function offsetSet($offset, $value)
     {
-        if (is_null($offset)) {
+        if ($offset === null) {
             $this->container[] = $value;
         } else {
             $this->container[$offset] = $value;
@@ -51,10 +36,14 @@ class Configuration implements ArrayAccess
      * @codeCoverageIgnore
      */
     public function offsetExists($offset) {
-        return isset($this->container[$offset]);
+        return array_key_exists($offset, $this->container);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * @inheritDoc
+     *
+     * @throws ConfigurationKeyNotFoundException
+     */
     public function offsetUnset($offset) {
         throw new ConfigurationKeyNotFoundException($offset);
     }
@@ -65,7 +54,7 @@ class Configuration implements ArrayAccess
      * @codeCoverageIgnore
      */
     public function offsetGet($offset) {
-        if (isset($this->container[$offset])) {
+        if (array_key_exists($offset, $this->container) === true) {
             return $this->container[$offset];
         }
     }

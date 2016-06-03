@@ -1,11 +1,5 @@
 <?php
-/**
- * ...
- *
- * @author Nigel Greenway <nigel_greenway@me.com>
- * @license ...
- */
-
+/** @license See LICENSE.md */
 namespace Colonel\Test\Configuration;
 
 use Colonel\HttpKernel;
@@ -16,9 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ServiceProviderTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @covers \Colonel\HttpKernel::run
-     */
+    /** @covers \Colonel\HttpKernel::run */
     public function test_handle_is_successful_with_a_service_provider()
     {
         $_SERVER['REQUEST_URI'] = '/';

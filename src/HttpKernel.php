@@ -1,11 +1,5 @@
 <?php
-/**
- * Part of the Colonel Library
- *
- * @author Nigel Greenway <nigel_greenway@me.com>
- * @license GNUv3
- */
-
+/** @license See LICENSE.md */
 namespace Colonel;
 
 use League\Route\Http\Exception;
@@ -16,38 +10,24 @@ use League\Route\RouteCollection;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpKernel\TerminableInterface;
 
-/**
- * The HTTP Kernel
- *
- * @package Colonel
- * @author  Nigel Greenway <nigel_greenway@me.com>
- */
+/** @author  Nigel Greenway <nigel_greenway@me.com> */
 final class HttpKernel implements HttpKernelInterface, TerminableInterface
 {
-    /**
-     * @var Configuration
-     */
+    /** @var Configuration */
     public $configuration;
-
-    /**
-     * @var Container
-     */
+    /** @var Container */
     public $container;
-
-    /**
-     * @var bool
-     */
+    /** @var RouteCollection */
+    private $router;
+    /** @var bool */
     private $booted    = false;
-
-    /**
-     * @var bool
-     */
+    /** @var bool */
     private $destroyed = false;
 
     /**
-     * Class Constructor
-     *
      * @param array $configuration
+     *
+     * @throws NoRouteStrategyDefinedException
      */
     public function __construct(
         array $configuration = []
@@ -89,6 +69,9 @@ final class HttpKernel implements HttpKernelInterface, TerminableInterface
 
     /**
      * {@inheritDoc}
+     *
+     * @throws ClassDoesNotImplementServiceProviderInterfaceException
+     * @throws \Exception
      */
     public function run(Request $request = null)
     {
@@ -119,11 +102,7 @@ final class HttpKernel implements HttpKernelInterface, TerminableInterface
         }
     }
 
-    /**
-     * Get the container
-     *
-     * @return Container
-     */
+    /** @return Container */
     public function getContainer()
     {
         return $this->container;
@@ -131,6 +110,8 @@ final class HttpKernel implements HttpKernelInterface, TerminableInterface
 
     /**
      * Call the boot method on a ServiceProvider
+     *
+     * @throws ClassDoesNotImplementServiceProviderInterfaceException
      *
      * @return void
      */
