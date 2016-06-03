@@ -1,11 +1,5 @@
 <?php
-/**
- * Part of the Colonel Library
- *
- * @author Nigel Greenway <nigel_greenway@me.com>
- * @license GNUv3
- */
-
+/** @license See LICENSE.md */
 namespace Colonel;
 
 use League\Route\Http\Exception;
@@ -13,42 +7,27 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use League\Container\Container;
 use League\Route\RouteCollection;
-use League\Route\Http\Exception\NotFoundException;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpKernel\TerminableInterface;
 
-/**
- * The HTTP Kernel
- *
- * @package Colonel
- * @author  Nigel Greenway <nigel_greenway@me.com>
- */
+/** @author  Nigel Greenway <github@futurepixels.co.uk> */
 final class HttpKernel implements HttpKernelInterface, TerminableInterface
 {
-    /**
-     * @var Configuration
-     */
+    /** @var Configuration */
     public $configuration;
-
-    /**
-     * @var Container
-     */
+    /** @var Container */
     public $container;
-
-    /**
-     * @var bool
-     */
+    /** @var RouteCollection */
+    private $router;
+    /** @var bool */
     private $booted    = false;
-
-    /**
-     * @var bool
-     */
+    /** @var bool */
     private $destroyed = false;
 
     /**
-     * Class Constructor
-     *
      * @param array $configuration
+     *
+     * @throws NoRouteStrategyDefinedException
      */
     public function __construct(
         array $configuration = []
@@ -84,30 +63,15 @@ final class HttpKernel implements HttpKernelInterface, TerminableInterface
         $dispatcher = $this->router->getDispatcher();
         $requestUri = parse_url($request->getRequestUri(), PHP_URL_PATH);
 
-        try {
-            $this->container->singleton(Request::class, $request);
-
-            $this->boot();
-
-            $response = $dispatcher->dispatch($request->getMethod(), $requestUri);
-
-        } catch (NotFoundException $exception) {
-            $response = Response::create(
-                sprintf(
-                    '<h1>Oops, there is an error: <strong>%s</strong></h1><p>Does the requested route `<strong>%s</strong>` exist?</p><pre>%s</pre>',
-                    $exception->getMessage(),
-                    $requestUri,
-                    $exception->getTraceAsString()
-                ),
-                Response::HTTP_NOT_FOUND
-            );
-        }
-
-        return $response;
+        $this->container->singleton(Request::class, $request);
+        return $dispatcher->dispatch($request->getMethod(), $requestUri);
     }
 
     /**
      * {@inheritDoc}
+     *
+     * @throws ClassDoesNotImplementServiceProviderInterfaceException
+     * @throws \Exception
      */
     public function run(Request $request = null)
     {
@@ -136,11 +100,7 @@ final class HttpKernel implements HttpKernelInterface, TerminableInterface
         }
     }
 
-    /**
-     * Get the container
-     *
-     * @return Container
-     */
+    /** @return Container */
     public function getContainer()
     {
         return $this->container;
@@ -148,6 +108,8 @@ final class HttpKernel implements HttpKernelInterface, TerminableInterface
 
     /**
      * Call the boot method on a ServiceProvider
+     *
+     * @throws ClassDoesNotImplementServiceProviderInterfaceException
      *
      * @return void
      */
