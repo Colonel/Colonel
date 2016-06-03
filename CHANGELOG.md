@@ -2,7 +2,13 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [Unreleased][unreleased]
+## [0.4.1] - 2016-06-03
+
+### Fixes
+
+ - `HttpKernel#boot` not being called
+
+## [0.4.0] - 2016-06-03
 
 ### Removes
 
@@ -11,3 +17,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Changes
 
  - General tidy up of the comments and code
+
+## 0.3.1
+
+### Changes
+ - Move when the `HttpKernel#boot` method is called to allow access to the full DiC
