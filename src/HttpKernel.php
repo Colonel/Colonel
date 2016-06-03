@@ -66,7 +66,6 @@ final class HttpKernel implements HttpKernelInterface, TerminableInterface
         $requestUri = parse_url($request->getRequestUri(), PHP_URL_PATH);
 
         $this->container->singleton(Request::class, $request);
-
         $this->boot();
 
         return $dispatcher->dispatch($request->getMethod(), $requestUri);
