@@ -1,4 +1,5 @@
 <?php
+/** @license See LICENSE.md */
 namespace Colonel\Test\Fixtures;
 
 use Colonel\HttpKernel;

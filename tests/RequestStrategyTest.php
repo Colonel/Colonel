@@ -1,5 +1,5 @@
 <?php
-
+/** @license See LICENSE.md */
 namespace Colonel\Test\Configuration;
 
 use Colonel\HttpKernel;
@@ -11,9 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class RouteStrategyTest extends PHPUnit_Framework_TestCase
 {
-    /**
-     * @covers UriArrayRequestStrategy::__construct
-     */
+    /** @covers UriArrayRequestStrategy::dispatch */
     public function test_UriArrayRequestStrategy_displays_correct_data()
     {
         $_SERVER['REQUEST_URI'] = '/users/scooby/address/mystery-van';
@@ -44,9 +42,7 @@ class RouteStrategyTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals('{"name":"scooby","address":"mystery-van"}', $response->getContent());
     }
-    /**
-     * @covers UriRequestStrategy::__construct
-     */
+    /** @covers UriRequestStrategy::dispatch */
     public function test_UriRequestStrategy_displays_correct_data()
     {
         $_SERVER['REQUEST_URI'] = '/users/scooby/address/mystery-van';

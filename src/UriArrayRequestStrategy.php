@@ -1,26 +1,14 @@
 <?php
-/**
- * Part of the Colonel Library
- *
- * @author Nigel Greenway <nigel_greenway@me.com>
- * @license GNUv3
- */
-
+/** @license See LICENSE.md */
 namespace Colonel;
 
 use League\Route\Strategy\AbstractStrategy;
 use League\Route\Strategy\StrategyInterface;
 
-/**
- * Invoke a controller with an array of URI parameters and the Request object
- *
- * @package League\Route\Strategy
- */
+/** Invoke a controller with an array of URI parameters and the Request object */
 class UriArrayRequestStrategy extends AbstractStrategy implements StrategyInterface
 {
-    /**
-     * {@inheritdoc}
-     */
+    /** {@inheritdoc} */
     public function dispatch($controller, array $vars)
     {
          $response = $this->invokeController(
