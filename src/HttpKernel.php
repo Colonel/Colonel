@@ -10,7 +10,7 @@ use League\Route\RouteCollection;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpKernel\TerminableInterface;
 
-/** @author  Nigel Greenway <nigel_greenway@me.com> */
+/** @author  Nigel Greenway <github@futurepixels.co.uk> */
 final class HttpKernel implements HttpKernelInterface, TerminableInterface
 {
     /** @var Configuration */

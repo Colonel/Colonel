@@ -4,7 +4,7 @@ namespace Colonel;
 
 use ArrayAccess;
 
-/** @author  Nigel Greenway <nigel_greenway@me.com> */
+/** @author  Nigel Greenway <github@futurepixels.co.uk> */
 class Configuration implements ArrayAccess
 {
     /** @var array */

@@ -4,7 +4,7 @@ namespace Colonel;
 
 use \RuntimeException;
 
-/** @author  Nigel Greenway <nigel_greenway@me.com> */
+/** @author  Nigel Greenway <github@futurepixels.co.uk> */
 class ClassDoesNotImplementServiceProviderInterfaceException extends RuntimeException
 {
     /** @param $className */

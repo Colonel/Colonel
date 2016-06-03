@@ -2,7 +2,7 @@
 /** @license See LICENSE.md */
 namespace Colonel;
 
-/** @author  Nigel Greenway <nigel_greenway@me.com> */
+/** @author  Nigel Greenway <github@futurepixels.co.uk> */
 interface ServiceProviderInterface
 {
     /**
