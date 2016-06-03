@@ -13,7 +13,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use League\Container\Container;
 use League\Route\RouteCollection;
-use League\Route\Http\Exception\NotFoundException;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpKernel\TerminableInterface;
 
@@ -84,24 +83,8 @@ final class HttpKernel implements HttpKernelInterface, TerminableInterface
         $dispatcher = $this->router->getDispatcher();
         $requestUri = parse_url($request->getRequestUri(), PHP_URL_PATH);
 
-        try {
-            $this->container->singleton(Request::class, $request);
-            $response = $dispatcher->dispatch($request->getMethod(), $requestUri);
-
-
-        } catch (NotFoundException $exception) {
-            $response = Response::create(
-                sprintf(
-                    '<h1>Oops, there is an error: <strong>%s</strong></h1><p>Does the requested route `<strong>%s</strong>` exist?</p><pre>%s</pre>',
-                    $exception->getMessage(),
-                    $requestUri,
-                    $exception->getTraceAsString()
-                ),
-                Response::HTTP_NOT_FOUND
-            );
-        }
-
-        return $response;
+        $this->container->singleton(Request::class, $request);
+        return $dispatcher->dispatch($request->getMethod(), $requestUri);
     }
 
     /**
